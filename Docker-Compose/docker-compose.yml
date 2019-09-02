@@ -1,0 +1,91 @@
+version: '3.4'
+
+services:
+  postgres_server:
+    #build: ./database/
+    image: dockermarvic/mi_postgres:latest
+    # environment:
+    #   - POSTGRES_PASSWORD=123
+    #   - POSTGRES_DB=cineapp
+    #   - POSTGRES_USER=postgres
+    volumes: 
+      - my-data:/var/lib/postgres/
+    restart: on-failure
+    networks: 
+      - backend
+
+  apimicro1:
+    #build: ./SpringMicro1/
+    image: dockermarvic/micro1:latest
+    # environment: 
+    #   - host=postgres_server
+    #   - database=cineapp
+    #   - username=postgres
+    #   - password=123
+    ports:
+      - 8080:8080
+    depends_on: 
+      - postgres_server
+      - apiacceso
+    restart: on-failure
+    networks: 
+      - backend
+
+  apimicro2:
+    #build: ./SpringMicro2/
+    image: dockermarvic/micro2:latest
+    # environment: 
+    #   - host=postgres_server
+    #   - database=cineapp
+    #   - username=postgres
+    #   - password=123
+    ports:
+      - 8081:8081
+    depends_on: 
+      - postgres_server
+      - apiacceso
+    restart: on-failure
+    networks: 
+      - backend
+
+  apiacceso:
+    #build: ./SpringAuthServer/
+    image: dockermarvic/apiacceso:latest
+    environment: 
+      - SERVER_SERVLET_CONTEXT_PATH=/acceso
+    ports:
+      - 9999:9999
+    depends_on: 
+      - postgres_server
+    restart: on-failure
+    networks:
+      - backend
+
+  proxy:
+    #build: ./proxy-backend/
+    image: dockermarvic/apiproxy:latest
+    ports:
+      - "80:80"
+    depends_on: 
+      - apimicro1
+      - apimicro2
+      - apiacceso
+    restart: on-failure
+    networks:
+      - backend
+
+  frontend:
+    #build: ./cineapp-frontend/
+    image: dockermarvic/cinefrontend:latest
+    ports:
+      - 8090:80
+    networks:
+      - frontend
+    
+
+volumes:
+  my-data:
+
+networks:
+  backend: 
+  frontend:
