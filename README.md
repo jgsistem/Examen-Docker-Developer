@@ -133,6 +133,8 @@ docker service logs -f cine_apimicro2
 
 8. Se realizan las pruebas en el aplicativo
 
+9. todos estos pasos se encuentran en el archivo ExamenFinal.odt
+
 
 
 
