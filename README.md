@@ -1,15 +1,15 @@
 # Examen  Final Docker – Developer
 
-El Archivo comprimido contiene:
+El repositorio contiene:
 
-1. - La carpeta Docker-Compose: contiene el archvio docker-compose.yml
-2. - La carpeta DockerFile- apiAcceso: contiene el docker file del api de acceso
-3. - La carpeta DockerFile-apiMicro1: contiene el docker file del api de cruds.
-4. - La carpeta DockerFile-apiMicro2: contiene el docker file del api de venta y reporte.
-5. - La carpeta DockerFile – database: contiene el docker file de creación de la bd postgres
-6. - La carpeta DockerFile-proxy: contiene el docker file  archivo nginx del server proxy
-7. - La carpeta cineapp-frontend: contiene el fuente y docker file del frontend.
-8. - La carpeta Docker Swarn compose: contiene el docker-compose.yml para swarm.
+1. La carpeta Docker-Compose: contiene el archvio docker-compose.yml, las imagenes docker que neceista este archivo se encuentran en el repositorio docker hub 
+2. La carpeta DockerFile- apiAcceso: contiene el docker file del api de acceso, que se encuentra en docker hub como dockermarvic/apiacceso
+3. La carpeta DockerFile-apiMicro1: contiene el docker file del api de cruds, que se encuentra en docker hub como dockermarvic/micro1
+4. La carpeta DockerFile-apiMicro2: contiene el docker file del api de venta y reporte, que se encuentra en docker hub como dockermarvic/micro2
+5. La carpeta DockerFile – database: contiene el docker file de creación de la bd postgres, que se encuentra en docker hub como dockermarvic/mi_postgres
+6. La carpeta DockerFile-proxy: contiene el docker file  archivo nginx del server proxy, que se encuentra en docker hub como dockermarvic/apiproxy
+7. La carpeta cineapp-frontend: contiene el fuente y docker file del frontend, que se encuentra en docker hub como dockermarvic/cinefrontend
+8. La carpeta Docker Swarn compose: contiene el docker-compose.yml para swarm.
 
 # EJECUTAR DOCKER COMPOSE - HOST UBUNTU
 
@@ -18,7 +18,7 @@ para probarlo se sigue los siguientes pasos:
 
 1. se abre una terminal y se navega hasta el directorio del archivo docker-compose.yml
 
-2. se ejecuta el siguiente comando : docker-compose up -d
+2. se ejecuta el siguiente comando : docker-compose up -d 
 
 3. Para probar el aplicativo se ingresa en el navegador web http://localhost:8090
 
@@ -100,6 +100,42 @@ eval $(docker-machine env manager1)
 docker node ls
 
 ## Ejecutar el archivo docker-compose.yml
+
+- Navegar al directorio Docker Swarn compose
+
+1. Ejecutar el siguiente comando desplegar el aplicativo en el cluster docker swarm
+
+docker stack deploy -c docker-compose.yml cine
+
+2. Se verificar el despliegue con los siguientes comandos
+
+docker stack ps cine
+
+docker service ls
+
+3. se puede verificar los log de la base de datos
+
+docker service logs -f cine_postgres_server
+
+4. se puede verificar los log del api de seguridad
+
+docker service logs -f cine_apiacceso
+
+5. se puede verificar los log del api de CRUD
+
+docker service logs -f cine_apimicro1
+
+6. se puede verificar los log del api de VENTA
+
+docker service logs -f cine_apimicro2
+
+7. Se levanta el front end en angular y cambiamos la constante HOST por el ip del manage1
+
+8. Se realizan las pruebas en el aplicativo
+
+
+
+
 
 
 
