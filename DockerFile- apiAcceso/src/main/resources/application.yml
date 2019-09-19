@@ -1,0 +1,29 @@
+server:
+  port: 9999
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/cineapp
+    username: postgres
+    password: 123
+    # driver-class-name: org.postgresql.Driver
+    # url: jdbc:postgresql://${host}/${database}
+    # username: ${username}
+    # password: ${password}
+# eureka:
+#   client:
+#     serviceUrl:
+#       defaultZone: http://localhost:8761/eureka/
+security:
+  oauth2:         
+    client:
+      client-id: mitomediapp
+      client-secret: mito89codex
+      authorized-grant-types: password
+      scope: read,write        
+      
